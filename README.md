@@ -138,5 +138,4 @@
 - github actions
 
 ## インフラ構成図
-![Infra](https://user-images.githubusercontent.com/26411908/103175917-24475d00-48b1-11eb-8229-14c2a349efec.png)
-
+![infra](https://user-images.githubusercontent.com/26411908/103181339-65586500-48e3-11eb-8a60-c8535015d309.png)
