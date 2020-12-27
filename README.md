@@ -16,29 +16,40 @@
     - id
     - name
     - email
+    - password_digest
     - image_url
     - created_at
     - updated_at
 - Book
     - id
     - genre_id
+    - publisher_id
+    - author_id
     - title
-    - author
-    - publisher
     - image_url
-    - urgency_number
-    - priority_number
     - published_at
     - created_at
     - updated_at
 - Genre
     - id
     - name
+    - created_at
+    - updated_at
+- Publisher
+  - id
+  - name
+  - created_at
+  - updated_at
+- Author
+  - id
+  - name
+  - created_at
+  - updated_at
 - Study
     - id
     - user_id
     - result
-    - executed_at
+    - execution_date
     - created_at
     - updated_at
 - StudyPlanItem
@@ -46,23 +57,60 @@
     - study_id
     - book_id
     - memo
+    - created_at
+    - updated_at
 - StudyResultItem
     - id
     - study_id
     - book_id
     - memo
+    - created_at
+    - updated_at
 - UserBookItem
     - id
     - user_id
     - book_id
     - status
     - progress_rate
+    - urgency_number
+    - priority_number
+    - created_at
+    - updated_at
+  
+## ER図
+![ERD](https://user-images.githubusercontent.com/26411908/103175905-0d086f80-48b1-11eb-863b-f9c9479758da.png)
+
+## APIエンドポイント
+- /api/v1/books
+  - GET
+  - POST
+- /api/v1/books/{id}
+  - GET
+  - PATCH
+  - DELETE
+- /api/v1/users
+  - GET
+  - POST
+- /api/v1/users/{id}
+  - GET
+  - POST
+  - DELETE
+- /api/v1/studies
+  - GET
+  - POST
+- /api/v1/studies/{id}
+  - GET
+  - PATCH
+  - DELETE
+- /api/v1/login
+  - POST
+  - DELETE
 
 ## 技術スタック
 ### フロントエンド
-- HTML/CSS
-- JavaScript/TypeScript
-- React/Next.js
+- HTML5 / CSS3
+- JavaScript / TypeScript
+- React / Next.js
 - Bootstrap or Material-UI
 ### バックエンド
 - Golang
@@ -73,14 +121,22 @@
 - PostgreSQL or MySQL
 ### インフラ
 - AWS
-    - ECS/Fargate or EKS/Fargate
+    - ECS / Fargate or EKS / Fargate
     - ECR
     - RDS
+    - ElastiCache
     - S3
     - VPC
     - ALB
     - Route53
+    - ACM
+    - SSM
+    - CloudWatchLogs
 ### その他
 - Docker / docker-compose
 - Kubernetes
 - github actions
+
+## インフラ構成図
+![Infra](https://user-images.githubusercontent.com/26411908/103175917-24475d00-48b1-11eb-8229-14c2a349efec.png)
+
