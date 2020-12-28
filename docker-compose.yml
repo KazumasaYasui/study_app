@@ -1,0 +1,132 @@
+version: '3.8'
+services:
+
+  backend:
+    tty: true
+    stdin_open: true
+    build:
+      context: ./backend
+    container_name: studyapp_backend
+    volumes:
+      - ./backend/src:/go/src/app
+    ports:
+      - 8888:8080
+    depends_on:
+      - psql
+      - redis
+
+  backend_nginx:
+    image: nginx:latest
+    container_name: studyapp_backend_nginx
+    restart: always
+    volumes:
+      - ./backend/nginx/default.conf:/etc/nginx/nginx.conf
+    ports:
+      - 88:80
+    depends_on:
+      - backend
+
+  psql:
+    image: postgres:10.15
+    container_name: studyapp_psql
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: studyapp_development
+    volumes:
+      - psql_data:/var/lib/postgresql/data
+      - ./backend/db/initdb:/docker-entrypoint-initdb.d
+    ports:
+      - 5432:5432
+      - 15432:5432
+
+  redis:
+    image: redis:latest
+    container_name: studyapp_redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - 6379:6379
+      - 16379:6379
+
+  minio:
+    image: minio/minio:latest
+    container_name: studyapp_minio
+    environment:
+      MINIO_ACCESS_KEY: studyapp_access_key
+      MINIO_SECRET_KEY: studyapp_secret_key
+    command: server /export
+    volumes:
+      - minio_data:/export
+      - ./backend/minio/config:/root/.minio
+    ports:
+      - 9000:9000
+
+  minio_mc:
+    image: minio/mc
+    container_name: studyapp_minio_mc
+    entrypoint: >
+      /bin/sh -c "
+      until (/usr/bin/mc config host add studyapp_host http://minio:9000 studyapp_access_key studyapp_secret_key) do echo '...waiting...' && sleep 1; done;
+      /usr/bin/mc mb studyapp_host/studyapp-development-private;
+      /usr/bin/mc policy set download studyapp_host/studyapp-development-private;
+      exit 0;
+      "
+    depends_on:
+      - minio
+
+  swagger_ui:
+    image: swaggerapi/swagger-ui
+    container_name: studyapp_swagger_ui
+    ports:
+      - 8060:8080
+    volumes:
+      - ./backend/openapi/openapi.yml:/openapi.yml
+    environment:
+      SWAGGER_JSON: /openapi.yml
+      API_URL: openapi.yml
+
+  swagger_editor:
+    image: swaggerapi/swagger-editor
+    container_name: studyapp_swagger_editor
+    ports:
+      - 8061:8080
+
+  swagger_api:
+    image: danielgtaylor/apisprout
+    container_name: studyapp_swagger_api
+    ports:
+      - 8062:8000
+    volumes:
+      - ./backend/openapi/openapi.yml:/openapi.yml
+    entrypoint: /usr/local/bin/apisprout /openapi.yml --watch
+    networks:
+      swagger_link:
+        aliases:
+          - local.swagger.apisprout
+
+  swagger_nginx:
+    image: nginx:mainline-alpine
+    container_name: studyapp_swagger_nginx
+    ports:
+      - 8063:8088
+    volumes:
+      - ./backend/nginx/openapi.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      swagger_link:
+        aliases:
+          - local.swagger.api
+
+networks:
+  swagger_link:
+    external: false
+
+volumes:
+  psql_data:
+    driver: local
+  redis_data:
+    driver: local
+  minio_data:
+    driver: local

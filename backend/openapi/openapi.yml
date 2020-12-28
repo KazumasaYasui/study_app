@@ -1,0 +1,1123 @@
+openapi: 3.0.0
+# Added by API Auto Mocking Plugin
+
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: http://localhost:8063
+
+info:
+  description: This is a StudyApp API
+  version: '1'
+  title: StudyApp API
+  contact:
+    email: study_app@example.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
+tags:
+  - name: base_functions
+    description: For base functions
+
+paths:
+  /registration:
+    post:
+      tags:
+        - base_functions
+      summary: regstraion to study app
+      operationId: registraionToStudyApp
+      description: regstraion to study app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/registrationForm'
+        description: registration's item
+      responses:
+        201:
+          $ref: '#/components/responses/Created'
+        400:
+          $ref: '#/components/responses/BadRequest'
+
+  /login:
+    post:
+      tags:
+        - base_functions
+      summary: login to study app
+      operationId: loginToStudyApp
+      description: login to study app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loginForm'
+        description: login item
+      responses:
+        201:
+          $ref: '#/components/responses/LoggedIn'
+        400:
+          $ref: '#/components/responses/BadRequest'
+    delete:
+      tags:
+        - base_functions
+      summary: logout to study app
+      operationId: logoutToStudyApp
+      description: logout to study app
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/LoggedOut'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+
+  /users:
+    get:
+      tags:
+        - base_functions
+      summary: user's list
+      operationId: userList
+      description: user's list
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/UserList'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+    post:
+      tags:
+        - base_functions
+      summary: user's create
+      operationId: userCreate
+      description: user's create
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userForm'
+        description: user create item
+      responses:
+        201:
+          $ref: '#/components/responses/Created'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+
+  /users/{id}:
+    get:
+      tags:
+        - base_functions
+      summary: user's data
+      operationId: userData
+      description: user's data
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: user id
+          schema:
+            type: integer
+            format: int64
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/UserData'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+    patch:
+      tags:
+        - base_functions
+      summary: user's update
+      operationId: userUpdate
+      description: user's update
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: user id
+          schema:
+            type: integer
+            format: int64
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userForm'
+        description: user update item
+      responses:
+        200:
+          $ref: '#/components/responses/Updated'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags:
+        - base_functions
+      summary: user's delete
+      operationId: userDelete
+      description: user's delete
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: user id
+          schema:
+            type: integer
+            format: int64
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/Deleted'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+
+  /books:
+    get:
+      tags:
+        - base_functions
+      summary: book's list
+      operationId: bookList
+      description: book's list
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/BookList'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+    post:
+      tags:
+        - base_functions
+      summary: book's create
+      operationId: bookCreate
+      description: book's create
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/bookForm'
+        description: book create item
+      responses:
+        201:
+          $ref: '#/components/responses/Created'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+
+  /books/{id}:
+    get:
+      tags:
+        - base_functions
+      summary: book's data
+      operationId: bookData
+      description: book's data
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: book id
+          schema:
+            type: integer
+            format: int64
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/BookData'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+    patch:
+      tags:
+        - base_functions
+      summary: book's update
+      operationId: bookUpdate
+      description: book's update
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: book id
+          schema:
+            type: integer
+            format: int64
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/bookForm'
+        description: book update item
+      responses:
+        200:
+          $ref: '#/components/responses/Updated'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags:
+        - base_functions
+      summary: book's delete
+      operationId: bookDelete
+      description: book's delete
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: book id
+          schema:
+            type: integer
+            format: int64
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/Deleted'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+
+  /books/{id}/my_info:
+    get:
+      tags:
+        - base_functions
+      summary: book my info's data
+      operationId: bookMyInfoData
+      description: book my info's data
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: book id
+          schema:
+            type: integer
+            format: int64
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/BookMyInfoData'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+    post:
+      tags:
+        - base_functions
+      summary: book my info's create
+      operationId: bookMyInfoCreate
+      description: book my info's create
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: book id
+          schema:
+            type: integer
+            format: int64
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/bookMyInfoForm'
+        description: book my info create item
+      responses:
+        201:
+          $ref: '#/components/responses/Created'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+    patch:
+      tags:
+        - base_functions
+      summary: book my info's update
+      operationId: bookMyInfoUpdate
+      description: book my info's update
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: book id
+          schema:
+            type: integer
+            format: int64
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/bookMyInfoForm'
+        description: book my info update item
+      responses:
+        200:
+          $ref: '#/components/responses/Updated'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags:
+        - base_functions
+      summary: book my info's delete
+      operationId: bookMyInfoDelete
+      description: book my info's delete
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: book id
+          schema:
+            type: integer
+            format: int64
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/Deleted'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+
+  /studies:
+    get:
+      tags:
+        - base_functions
+      summary: study's list
+      operationId: studyList
+      description: study's list
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/StudyList'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+    post:
+      tags:
+        - base_functions
+      summary: study's create
+      operationId: studyCreate
+      description: study's create
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/studyForm'
+        description: study create item
+      responses:
+        201:
+          $ref: '#/components/responses/Created'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+
+  /studies/{id}:
+    get:
+      tags:
+        - base_functions
+      summary: study's data
+      operationId: studyData
+      description: study's data
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: study id
+          schema:
+            type: integer
+            format: int64
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/StudyData'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+    patch:
+      tags:
+        - base_functions
+      summary: study's update
+      operationId: studyUpdate
+      description: study's update
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: study id
+          schema:
+            type: integer
+            format: int64
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/studyForm'
+        description: study update item
+      responses:
+        200:
+          $ref: '#/components/responses/Updated'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags:
+        - base_functions
+      summary: study's delete
+      operationId: studyDelete
+      description: study's delete
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: study id
+          schema:
+            type: integer
+            format: int64
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/Deleted'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+
+components:
+  responses:
+    Created:
+      description: 'created'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/created'
+    Updated:
+      description: 'updated'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ok'
+    Deleted:
+      description: 'deleted'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ok'
+    BadRequest:
+      description: 'bad request'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/badRequest'
+    Unauthorized:
+      description: 'unauthorized'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/unauthorized'
+    Forbidden:
+      description: 'forbidden'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/forbidden'
+    NotFound:
+      description: 'not found'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/notFound'
+    LoggedIn:
+      description: 'logged in'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/loggedIn'
+    LoggedOut:
+      description: 'logged out'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ok'
+    UserData:
+      description: 'user data'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/userData'
+    UserList:
+      description: 'user list'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/userList'
+    BookData:
+      description: 'book data'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bookData'
+    BookList:
+      description: 'book list'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bookList'
+    BookMyInfoData:
+      description: 'book my info data'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bookMyInfoData'
+    StudyData:
+      description: 'study data'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/studyData'
+    StudyList:
+      description: 'study list'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/studyList'
+
+  schemas:
+    # Common
+    created:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Created
+    ok:
+      type: object
+      properties:
+        message:
+          type: string
+          example: OK
+    badRequest:
+      type: object
+      properties:
+        error_code:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: Bad Request
+    unauthorized:
+      type: object
+      properties:
+        error_code:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Unauthorized
+    forbidden:
+      type: object
+      properties:
+        error_code:
+          type: integer
+          example: 403
+        message:
+          type: string
+          example: Forbidden
+    notFound:
+      type: object
+      properties:
+        error_code:
+          type: integer
+          example: 404
+        message:
+          type: string
+          example: Not Found
+
+    # For Base Function
+    registrationForm:
+      type: object
+      properties:
+        registration:
+          type: object
+          properties:
+            email:
+              type: string
+              example: 'hogehoge@example.com'
+            password:
+              type: string
+              example: 'password'
+            password_confirmation:
+              type: string
+              example: 'password'
+    loginForm:
+      type: object
+      properties:
+        session:
+          type: object
+          properties:
+            email:
+              type: string
+              example: 'hogehoge@example.com'
+            password:
+              type: string
+              example: 'password'
+    loggedIn:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Created
+        token:
+          type: string
+          example: |
+            f3692729f1a1cd27ecae88b85243c8b38cf92523dacfbeb5454e53c9708c98fa
+            c79dadb23f1578123e49f5781d664f7d59697651658c7314762b6dd896bf6ab1
+    userForm:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            name:
+              type: string
+              example: 'Relic太郎'
+            email:
+              type: string
+              format: email
+              example: 'hogehoge@example.com'
+            imaeg_url:
+              type: string
+              example: 'studyapp_private/hogehoge1234567890.png'
+    userData:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: 'Relic太郎'
+        email:
+          type: string
+          format: email
+          example: 'hogehoge@example.com'
+        imaeg_url:
+          type: string
+          example: 'studyapp_private/hogehoge1234567890.png'
+        created_at:
+          type: string
+          example: '2020-01-01 12:34:56'
+        updated_at:
+          type: string
+          example: '2020-01-01 12:34:56'
+    userList:
+      type: array
+      items:
+        $ref: '#/components/schemas/userData'
+    bookForm:
+      type: object
+      properties:
+        book:
+          type: object
+          properties:
+            genre:
+              type: string
+              example: 'Web'
+            publisher:
+              type: string
+              example: 'オライリー'
+            author:
+              type: string
+              example: 'John Doe'
+            title:
+              type: string
+              example: 'Relic太郎'
+            imaeg_url:
+              type: string
+              example: 'studyapp_private/hogehoge1234567890.png'
+            publish_date:
+              type: string
+              example: '2021/01/01'
+    bookData:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        genre:
+          type: string
+          example: 'Web'
+        publisher:
+          type: string
+          example: 'オライリー'
+        author:
+          type: string
+          example: 'John Doe'
+        title:
+          type: string
+          example: 'Relic太郎'
+        imaeg_url:
+          type: string
+          example: 'studyapp_private/hogehoge1234567890.png'
+        publish_date:
+          type: string
+          example: '2021/01/01'
+        created_at:
+          type: string
+          example: '2020-01-01 12:34:56'
+        updated_at:
+          type: string
+          example: '2020-01-01 12:34:56'
+    bookList:
+      type: array
+      items:
+        $ref: '#/components/schemas/bookData'
+    bookMyInfoForm:
+      type: object
+      properties:
+        book_my_info:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            status:
+              type: string
+              example: 'done'
+            progress_rate:
+              type: integer
+              example: 90
+            urgency_number:
+              type: integer
+              example: 4
+            priority_number:
+              type: integer
+              example: 4
+    bookMyInfoData:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        status:
+          type: string
+          example: 'done'
+        progress_rate:
+          type: integer
+          example: 90
+        urgency_number:
+          type: integer
+          example: 4
+        priority_number:
+          type: integer
+          example: 4
+        created_at:
+          type: string
+          example: '2020-01-01 12:34:56'
+        updated_at:
+          type: string
+          example: '2020-01-01 12:34:56'
+    studyForm:
+      type: object
+      properties:
+        study:
+          type: object
+          properties:
+            memo:
+              type: string
+              example: 'メモです。'
+            result:
+              type: string
+              example: 'done'
+            execution_date:
+              type: string
+              example: '2021/01/01'
+            study_plan_items:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  book_id:
+                    type: integer
+                    example: 1
+                  memo:
+                    type: string
+                    example: 'This is a memo.'
+            study_result_items:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  book_id:
+                    type: integer
+                    example: 1
+                  memo:
+                    type: string
+                    example: 'This is a memo.'
+    studyData:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        memo:
+          type: string
+          example: 'メモです。'
+        result:
+          type: string
+          example: 'done'
+        execution_date:
+          type: string
+          example: '2021/01/01'
+        created_at:
+          type: string
+          example: '2020-01-01 12:34:56'
+        updated_at:
+          type: string
+          example: '2020-01-01 12:34:56'
+        study_plan_items:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              book_id:
+                type: integer
+                example: 1
+              memo:
+                type: string
+                example: 'This is a memo.'
+              created_at:
+                type: string
+                example: '2020-01-01 12:34:56'
+              updated_at:
+                type: string
+                example: '2020-01-01 12:34:56'
+        study_result_items:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              book_id:
+                type: integer
+                example: 1
+              memo:
+                type: string
+                example: 'This is a memo.'
+              created_at:
+                type: string
+                example: '2020-01-01 12:34:56'
+              updated_at:
+                type: string
+                example: '2020-01-01 12:34:56'
+    studyList:
+      type: array
+      items:
+        $ref: '#/components/schemas/studyData'

@@ -78,15 +78,13 @@
     - updated_at
   
 ## ER図
-![ERD](https://user-images.githubusercontent.com/26411908/103175905-0d086f80-48b1-11eb-863b-f9c9479758da.png)
+![ERD](https://user-images.githubusercontent.com/26411908/103233041-663ed480-497f-11eb-8902-020749089f02.png)
 
 ## APIエンドポイント
-- /api/v1/books
-  - GET
+- /api/v1/registration
   - POST
-- /api/v1/books/{id}
-  - GET
-  - PATCH
+- /api/v1/login
+  - POST
   - DELETE
 - /api/v1/users
   - GET
@@ -95,15 +93,24 @@
   - GET
   - POST
   - DELETE
+- /api/v1/books
+  - GET
+  - POST
+- /api/v1/books/{id}
+  - GET
+  - PATCH
+  - DELETE
+- /api/v1/books/{id}/my_info
+  - GET
+  - POST
+  - PATCH
+  - DELETE
 - /api/v1/studies
   - GET
   - POST
 - /api/v1/studies/{id}
   - GET
   - PATCH
-  - DELETE
-- /api/v1/login
-  - POST
   - DELETE
 
 ## 技術スタック

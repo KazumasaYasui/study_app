@@ -1,0 +1,2 @@
+# Ignore minio files
+/backend/minio/*
