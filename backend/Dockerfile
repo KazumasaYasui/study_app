@@ -1,14 +1,38 @@
-FROM golang:1.15.6-alpine
+# BASE
+FROM golang:1.15.6-alpine as base
 
 RUN apk update && apk add git
 
-RUN go get -u github.com/oxequa/realize && \
-    go get -u github.com/gorilla/mux
+RUN mkdir /go/src/studyapp
+WORKDIR /go/src/studyapp
 
-RUN mkdir /go/src/app
+COPY src/go.mod .
+COPY src/go.sum .
+RUN go mod download
+RUN go get -u github.com/cosmtrek/air
 
-WORKDIR /go/src/app
+COPY ./src /go/src/studyapp
 
-ADD ./src /go/src/app
+CMD ["air", "-c", ".air.toml"]
 
-CMD ["realize", "start", "--server"]
+# BUILDER
+FROM golang:1.15.6-alpine as builder
+
+RUN mkdir /go/src/builder
+WORKDIR /go/src/builder
+
+COPY --from=base /go/src/studyapp /go/src/builder
+RUN CGO_ENABLED=0 go build ./main.go
+
+# PROD
+FROM alpine as production
+
+RUN mkdir -p /go/src
+WORKDIR /go/src
+
+RUN apk add --no-cache ca-certificates
+COPY --from=builder /go/src/builder/main /go/src/main
+
+EXPOSE 8080
+
+CMD [ "/go/src/main" ]

@@ -6,9 +6,10 @@ services:
     stdin_open: true
     build:
       context: ./backend
+      target: base
     container_name: studyapp_backend
     volumes:
-      - ./backend/src:/go/src/app
+      - ./backend/src:/go/src/studyapp
     ports:
       - 8888:8080
     depends_on:

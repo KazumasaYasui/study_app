@@ -27,7 +27,7 @@
     - author_id
     - title
     - image_url
-    - published_at
+    - publish_date
     - created_at
     - updated_at
 - Genre
@@ -48,6 +48,7 @@
 - Study
     - id
     - user_id
+    - memo
     - result
     - execution_date
     - created_at
