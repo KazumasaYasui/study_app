@@ -13,7 +13,7 @@ services:
     ports:
       - 8888:8080
     depends_on:
-      - psql
+      - mysql
       - redis
 
   backend_nginx:
@@ -27,20 +27,19 @@ services:
     depends_on:
       - backend
 
-  psql:
-    image: postgres:10.15
-    container_name: studyapp_psql
+  mysql:
+    image: mysql:8.0
+    container_name: studyapp_mysql
     restart: always
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: studyapp_development
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: studyapp_development
     volumes:
-      - psql_data:/var/lib/postgresql/data
-      - ./backend/db/initdb:/docker-entrypoint-initdb.d
+      - mysql_data:/var/lib/mysql
+      - ./backend/provisioning/initdb:/docker-entrypoint-initdb.d
     ports:
-      - 5432:5432
-      - 15432:5432
+      - 33060:3306
 
   redis:
     image: redis:latest
@@ -49,8 +48,7 @@ services:
     volumes:
       - redis_data:/data
     ports:
-      - 6379:6379
-      - 16379:6379
+      - 63790:6379
 
   minio:
     image: minio/minio:latest
@@ -125,7 +123,7 @@ networks:
     external: false
 
 volumes:
-  psql_data:
+  mysql_data:
     driver: local
   redis_data:
     driver: local

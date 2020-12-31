@@ -49,7 +49,7 @@
     - id
     - user_id
     - memo
-    - result
+    - status
     - execution_date
     - created_at
     - updated_at
@@ -73,8 +73,8 @@
     - book_id
     - status
     - progress_rate
-    - urgency_number
-    - priority_number
+    - urgency
+    - priority
     - created_at
     - updated_at
   

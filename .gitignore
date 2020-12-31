@@ -1,2 +1,4 @@
 # Ignore minio files
 /backend/minio/*
+# Ignore tmp files
+/backend/src/tmp/*

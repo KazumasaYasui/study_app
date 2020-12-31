@@ -1,7 +1,7 @@
 # BASE
 FROM golang:1.15.6-alpine as base
 
-RUN apk update && apk add git
+RUN apk update && apk add --no-cache git gcc musl-dev
 
 RUN mkdir /go/src/studyapp
 WORKDIR /go/src/studyapp
@@ -9,7 +9,8 @@ WORKDIR /go/src/studyapp
 COPY src/go.mod .
 COPY src/go.sum .
 RUN go mod download
-RUN go get -u github.com/cosmtrek/air
+RUN go get -u github.com/cosmtrek/air && \
+    go get github.com/rubenv/sql-migrate/...
 
 COPY ./src /go/src/studyapp
 

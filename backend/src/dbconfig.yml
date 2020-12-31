@@ -1,0 +1,5 @@
+# DB Migration Config
+development:
+  dialect: mysql
+  datasource: studyapp:studyapp_pw@tcp(mysql:3306)/studyapp_development?parseTime=true
+  dir: db/migrations
