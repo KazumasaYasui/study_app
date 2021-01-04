@@ -10,6 +10,7 @@ COPY src/go.mod .
 COPY src/go.sum .
 RUN go mod download
 RUN go get -u github.com/cosmtrek/air && \
+    go get -u github.com/go-delve/delve/cmd/dlv && \
     go get github.com/rubenv/sql-migrate/...
 
 COPY ./src /go/src/studyapp
