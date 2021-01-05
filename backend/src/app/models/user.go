@@ -9,8 +9,8 @@ type User struct {
 	concerns.Base
 	Name           string `gorm:"size:255" json:"name"`
 	Email          string `gorm:"size:255" json:"email"`
-	PasswordDigest string `json:"password_digest,omitempty"`
-	ImageUrl       string `json:"image_url,omitempty"`
+	PasswordDigest string `gorm:"size:255" json:"password_digest,omitempty"`
+	ImageUrl       string `gorm:"size:255" json:"image_url,omitempty"`
 }
 
 func GetAllUsers(users *[]User) {
@@ -40,10 +40,10 @@ func UpdateUser(user *User, id string) {
 
 	db.Model(&user).Where("id = ?", id).Updates(
 		User{
-			Email: user.Email,
-			Name: user.Name,
+			Email:          user.Email,
+			Name:           user.Name,
 			PasswordDigest: user.PasswordDigest,
-			ImageUrl: user.ImageUrl,
+			ImageUrl:       user.ImageUrl,
 		},
 	)
 }
