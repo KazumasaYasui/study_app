@@ -15,10 +15,14 @@ type User struct {
 
 func GetAllUsers(users *[]User) {
 	db := config.DbConnect()
+	defer db.Close()
+
 	db.Find(&users)
 }
 
 func GetUser(user *User, id string) {
 	db := config.DbConnect()
+	defer db.Close()
+
 	db.First(&user, id)
 }

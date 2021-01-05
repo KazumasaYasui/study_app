@@ -11,8 +11,9 @@ func DbConnect() *gorm.DB {
 	PASS     := "studyapp_pw"
 	PROTOCOL := "tcp(mysql:3306)"
 	DBNAME   := "studyapp_development"
+	OPTION   := "?parseTime=true"
 
-	CONNECT := USER+":"+PASS+"@"+PROTOCOL+"/"+DBNAME
+	CONNECT := USER+":"+PASS+"@"+PROTOCOL+"/"+DBNAME+OPTION
 	db,err := gorm.Open(DBMS, CONNECT)
 
 	if err != nil {
