@@ -3,7 +3,7 @@ openapi: 3.0.0
 
 servers:
   - description: SwaggerHub API Auto Mocking
-    url: http://localhost:8063
+    url: http://localhost:8062
 
 info:
   description: This is a StudyApp API
