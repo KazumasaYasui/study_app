@@ -526,6 +526,32 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
 
+  /books/meta_info:
+    get:
+      tags:
+        - base_functions
+      summary: book meta info's data
+      operationId: bookMetaInfoData
+      description: book meta info's data
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          description: access token
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/BookMetaInfoData'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        404:
+          $ref: '#/components/responses/NotFound'
+
   /studies:
     get:
       tags:
@@ -765,6 +791,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/bookMyInfoData'
+    BookMetaInfoData:
+      description: 'book meta info data'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bookMetaInfoData'
     StudyData:
       description: 'study data'
       content:
@@ -1013,6 +1045,42 @@ components:
         updated_at:
           type: string
           example: '2020-01-01 12:34:56'
+    bookMetaInfoData:
+      type: object
+      properties:
+        genres:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              name:
+                type: string
+                example: 'ジャンル1'
+        publishers:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              name:
+                type: string
+                example: '出版社1'
+        authors:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              name:
+                type: string
+                example: '著者1'
     studyForm:
       type: object
       properties:

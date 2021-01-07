@@ -79,7 +79,7 @@
     - updated_at
   
 ## ER図
-![ERD](https://user-images.githubusercontent.com/26411908/103233041-663ed480-497f-11eb-8902-020749089f02.png)
+![ERD](https://user-images.githubusercontent.com/26411908/103839144-132cf600-50d2-11eb-8251-e746e176e796.png)
 
 ## APIエンドポイント
 - /api/v1/registration
@@ -113,6 +113,8 @@
   - GET
   - PATCH
   - DELETE
+- /api/v1/books/meta_info
+  - GET
 
 ## 技術スタック
 ### フロントエンド
