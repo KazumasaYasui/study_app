@@ -3,8 +3,9 @@ package main
 import (
 	"backend/src/app/controllers"
 	"fmt"
-	"github.com/gorilla/mux"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
@@ -19,6 +20,7 @@ func main() {
 	r.HandleFunc("/users/{id}", controllers.FetchUser).Methods("GET")
 	r.HandleFunc("/users/{id}", controllers.UpdateUser).Methods("PUT")
 	r.HandleFunc("/users/{id}", controllers.DeleteUser).Methods("DELETE")
+	r.HandleFunc("/books/meta_info", controllers.FetchAllBooksMetaInfo).Methods("GET")
 
 	//http.Handle("/", r)
 	http.ListenAndServe(":8080", r)
