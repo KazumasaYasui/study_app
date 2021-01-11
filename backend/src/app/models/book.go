@@ -8,12 +8,12 @@ import (
 
 type Book struct {
 	concerns.Base
-	GenreID     int
-	Genre       Genre
-	PublisherID int
-	Publisher   Publisher
-	AuthorID    int
-	Author      Author
+	GenreID     uint       `json:"genre_id"`
+	Genre       Genre      `json:"-"`
+	PublisherID uint       `json:"publisher_id"`
+	Publisher   Publisher  `json:"-"`
+	AuthorID    uint       `json:"author_id"`
+	Author      Author     `json:"-"`
 	Title       string     `gorm:"size:255" json:"name"`
 	ImageUrl    string     `gorm:"size:255" json:"image_url,omitempty"`
 	PublishDate *time.Time `sql:"type:date" json:"publish_date,omitempty"`

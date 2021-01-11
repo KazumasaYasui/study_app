@@ -8,7 +8,7 @@ import (
 type Publisher struct {
 	concerns.Base
 	Name  string `gorm:"size:255" json:"name"`
-	Books []Book
+	Books []Book `json:"-"`
 }
 
 func GetAllPublishers(publishers *[]Publisher) {

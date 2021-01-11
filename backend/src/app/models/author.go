@@ -8,7 +8,7 @@ import (
 type Author struct {
 	concerns.Base
 	Name  string `gorm:"size:255" json:"name"`
-	Books []Book
+	Books []Book `json:"-"`
 }
 
 func GetAllAuthors(authors *[]Author) {

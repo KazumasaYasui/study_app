@@ -20,6 +20,8 @@ func main() {
 	r.HandleFunc("/users/{id}", controllers.FetchUser).Methods("GET")
 	r.HandleFunc("/users/{id}", controllers.UpdateUser).Methods("PUT")
 	r.HandleFunc("/users/{id}", controllers.DeleteUser).Methods("DELETE")
+	r.HandleFunc("/books", controllers.FetchAllBooks).Methods("GET")
+	r.HandleFunc("/books/{id}", controllers.FetchBook).Methods("GET")
 	r.HandleFunc("/books/meta_info", controllers.FetchAllBooksMetaInfo).Methods("GET")
 
 	//http.Handle("/", r)
