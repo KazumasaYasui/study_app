@@ -23,6 +23,7 @@ func main() {
 	r.HandleFunc("/books", controllers.FetchAllBooks).Methods("GET")
 	r.HandleFunc("/books/{id}", controllers.FetchBook).Methods("GET")
 	r.HandleFunc("/books/meta_info", controllers.FetchAllBooksMetaInfo).Methods("GET")
+	r.HandleFunc("/books", controllers.CreateBook).Methods("POST")
 
 	//http.Handle("/", r)
 	http.ListenAndServe(":8080", r)
