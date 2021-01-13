@@ -7,10 +7,11 @@ import (
 
 type User struct {
 	concerns.Base
-	Name           string `gorm:"size:255" json:"name"`
-	Email          string `gorm:"size:255" json:"email"`
-	PasswordDigest string `gorm:"size:255" json:"password_digest,omitempty"`
-	ImageUrl       string `gorm:"size:255" json:"image_url,omitempty"`
+	Name           string         `gorm:"size:255" json:"name"`
+	Email          string         `gorm:"size:255" json:"email"`
+	PasswordDigest string         `gorm:"size:255" json:"password_digest,omitempty"`
+	ImageUrl       string         `gorm:"size:255" json:"image_url,omitempty"`
+	UserBookItem   []UserBookItem `json:"-"`
 }
 
 func GetAllUsers(users *[]User) {

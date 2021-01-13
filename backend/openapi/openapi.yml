@@ -1015,10 +1015,10 @@ components:
             progress_rate:
               type: integer
               example: 90
-            urgency_number:
+            urgency:
               type: integer
               example: 4
-            priority_number:
+            priority:
               type: integer
               example: 4
     bookMyInfoData:
@@ -1033,10 +1033,10 @@ components:
         progress_rate:
           type: integer
           example: 90
-        urgency_number:
+        urgency:
           type: integer
           example: 4
-        priority_number:
+        priority:
           type: integer
           example: 4
         created_at:

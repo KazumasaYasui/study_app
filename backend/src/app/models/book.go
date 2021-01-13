@@ -8,15 +8,16 @@ import (
 
 type Book struct {
 	concerns.Base
-	GenreID     uint      `json:"genre_id"`
-	Genre       Genre     `json:"genre"`
-	PublisherID uint      `json:"publisher_id"`
-	Publisher   Publisher `json:"publisher"`
-	AuthorID    uint      `json:"author_id"`
-	Author      Author    `json:"author"`
-	Title       string    `gorm:"size:255" json:"name"`
-	ImageUrl    string    `gorm:"size:255" json:"image_url,omitempty"`
-	PublishDate time.Time `sql:"type:date" json:"publish_date,omitempty"`
+	GenreID      uint           `json:"genre_id"`
+	Genre        Genre          `json:"genre"`
+	PublisherID  uint           `json:"publisher_id"`
+	Publisher    Publisher      `json:"publisher"`
+	AuthorID     uint           `json:"author_id"`
+	Author       Author         `json:"author"`
+	Title        string         `gorm:"size:255" json:"name"`
+	ImageUrl     string         `gorm:"size:255" json:"image_url,omitempty"`
+	PublishDate  time.Time      `sql:"type:date" json:"publish_date,omitempty"`
+	UserBookItem []UserBookItem `json:"-"`
 }
 
 func GetAllBooks(books *[]Book) {

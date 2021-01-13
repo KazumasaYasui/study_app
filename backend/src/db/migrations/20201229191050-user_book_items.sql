@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `user_book_items` (
     `created_at` datetime NOT NULL,
     `updated_at` datetime NOT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `index_user_book_items_on_user_id_and_book_id` (`user_id`, `book_id`),
     KEY `index_user_book_items_on_user_id` (`user_id`),
     KEY `index_user_book_items_on_book_id` (`book_id`),
     CONSTRAINT `fk_user_book_items_0000` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
