@@ -8,3 +8,11 @@ type BookReq struct {
 	ImageUrl    string `json:"image_url"`
 	PublishDate string `json:"publish_date"`
 }
+
+type BookMyInfoReq struct {
+	Id           string  `json:"id,omitempty"`
+	Status       string  `json:"status"`
+	ProgressRate float64 `json:"progress_rate"`
+	Urgency      int     `json:"urgency"`
+	Priority     int     `json:"priority"`
+}

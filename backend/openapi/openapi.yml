@@ -1013,8 +1013,9 @@ components:
               type: string
               example: 'done'
             progress_rate:
-              type: integer
-              example: 90
+              type: number
+              format: float
+              example: 90.5
             urgency:
               type: integer
               example: 4
@@ -1031,8 +1032,9 @@ components:
           type: string
           example: 'done'
         progress_rate:
-          type: integer
-          example: 90
+          type: number
+          format: float
+          example: 90.5
         urgency:
           type: integer
           example: 4

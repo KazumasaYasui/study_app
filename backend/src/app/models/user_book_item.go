@@ -24,3 +24,31 @@ func GetBookMyInfo(item *UserBookItem, bookId, userId string) {
 	db.Preload("User").Preload("Book").Where(
 		"book_id = ? AND user_id = ?", bookId, userId).First(&item)
 }
+
+func InsertBookMyInfo(item *UserBookItem) {
+	db := config.DbConnect()
+	defer db.Close()
+
+	db.Create(&item)
+}
+
+func UpdateBookMyInfo(item *UserBookItem, bookId, userId string) {
+	db := config.DbConnect()
+	defer db.Close()
+
+	db.Model(&item).Where("book_id = ? AND user_id = ?", bookId, userId).Updates(
+		UserBookItem{
+			Status:       item.Status,
+			ProgressRate: item.ProgressRate,
+			Urgency:      item.Urgency,
+			Priority:     item.Priority,
+		},
+	)
+}
+
+func DeleteBookMyInfo(bookId, userId string) {
+	db := config.DbConnect()
+	defer db.Close()
+
+	db.Where("book_id = ? AND user_id =?", bookId, userId).Delete(&UserBookItem{})
+}

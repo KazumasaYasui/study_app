@@ -27,7 +27,10 @@ func main() {
 	r.HandleFunc("/books/{id}", controllers.UpdateBook).Methods("PUT")
 	r.HandleFunc("/books/{id}", controllers.DeleteBook).Methods("DELETE")
 	r.HandleFunc("/books/meta_info", controllers.FetchAllBooksMetaInfo).Methods("GET")
+	r.HandleFunc("/books/{id}/my_info", controllers.CreateBookMyInfo).Methods("POST")
 	r.HandleFunc("/books/{id}/my_info", controllers.FetchBookMyInfo).Methods("GET")
+	r.HandleFunc("/books/{id}/my_info", controllers.UpdateBookMyInfo).Methods("PUT")
+	r.HandleFunc("/books/{id}/my_info", controllers.DeleteBookMyInfo).Methods("DELETE")
 
 	//http.Handle("/", r)
 	http.ListenAndServe(":8080", r)
