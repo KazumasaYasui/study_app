@@ -3,6 +3,7 @@ package main
 import (
 	"backend/src/app/controllers"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -14,6 +15,9 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	r := mux.NewRouter().StrictSlash(true)
+	r.HandleFunc("/signup", controllers.Signup).Methods("POST")
+	r.HandleFunc("/login", controllers.Login).Methods("POST")
+
 	r.HandleFunc("/", rootHandler)
 	r.HandleFunc("/users", controllers.CreateUser).Methods("POST")
 	r.HandleFunc("/users", controllers.FetchAllUsers).Methods("GET")
@@ -32,6 +36,6 @@ func main() {
 	r.HandleFunc("/books/{id}/my_info", controllers.UpdateBookMyInfo).Methods("PUT")
 	r.HandleFunc("/books/{id}/my_info", controllers.DeleteBookMyInfo).Methods("DELETE")
 
-	//http.Handle("/", r)
+	log.Println("starting server on 8080 port...")
 	http.ListenAndServe(":8080", r)
 }

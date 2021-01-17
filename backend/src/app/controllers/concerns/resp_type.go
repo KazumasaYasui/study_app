@@ -13,3 +13,11 @@ type BookMetaInfoResp struct {
 	Genres     []models.Genre
 	Publishers []models.Publisher
 }
+
+type TokenResp struct {
+	Token string `json:"token"`
+}
+
+type ErrorResp struct {
+	Message string `json:"message"`
+}
