@@ -28,6 +28,13 @@ func GetUser(user *User, id string) {
 	db.First(&user, id)
 }
 
+func GetUserWithEmail(user *User, email string) {
+	db := config.DbConnect()
+	defer db.Close()
+
+	db.Where("email = ?", email).First(&user)
+}
+
 func InsertUser(user *User) {
 	db := config.DbConnect()
 	defer db.Close()

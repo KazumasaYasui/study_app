@@ -22,3 +22,8 @@ type SignupReq struct {
 	Password             string `json:"password"`
 	PasswordConfirmation string `json:"password_confirmation"`
 }
+
+type LoginReq struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
