@@ -2,6 +2,7 @@ package main
 
 import (
 	"backend/src/app/controllers"
+	"backend/src/app/controllers/concerns"
 	"fmt"
 	"log"
 	"net/http"
@@ -19,22 +20,22 @@ func main() {
 	r.HandleFunc("/login", controllers.Login).Methods("POST")
 
 	r.HandleFunc("/", rootHandler)
-	r.HandleFunc("/users", controllers.CreateUser).Methods("POST")
-	r.HandleFunc("/users", controllers.FetchAllUsers).Methods("GET")
-	r.HandleFunc("/users/{id}", controllers.FetchUser).Methods("GET")
-	r.HandleFunc("/users/{id}", controllers.UpdateUser).Methods("PUT")
-	r.HandleFunc("/users/{id}", controllers.DeleteUser).Methods("DELETE")
+	r.HandleFunc("/users", concerns.TokenVerifyMiddleWare(controllers.CreateUser)).Methods("POST")
+	r.HandleFunc("/users", concerns.TokenVerifyMiddleWare(controllers.FetchAllUsers)).Methods("GET")
+	r.HandleFunc("/users/{id}", concerns.TokenVerifyMiddleWare(controllers.FetchUser)).Methods("GET")
+	r.HandleFunc("/users/{id}", concerns.TokenVerifyMiddleWare(controllers.UpdateUser)).Methods("PUT")
+	r.HandleFunc("/users/{id}", concerns.TokenVerifyMiddleWare(controllers.DeleteUser)).Methods("DELETE")
 
-	r.HandleFunc("/books", controllers.CreateBook).Methods("POST")
-	r.HandleFunc("/books", controllers.FetchAllBooks).Methods("GET")
-	r.HandleFunc("/books/{id}", controllers.FetchBook).Methods("GET")
-	r.HandleFunc("/books/{id}", controllers.UpdateBook).Methods("PUT")
-	r.HandleFunc("/books/{id}", controllers.DeleteBook).Methods("DELETE")
-	r.HandleFunc("/books/meta_info", controllers.FetchAllBooksMetaInfo).Methods("GET")
-	r.HandleFunc("/books/{id}/my_info", controllers.CreateBookMyInfo).Methods("POST")
-	r.HandleFunc("/books/{id}/my_info", controllers.FetchBookMyInfo).Methods("GET")
-	r.HandleFunc("/books/{id}/my_info", controllers.UpdateBookMyInfo).Methods("PUT")
-	r.HandleFunc("/books/{id}/my_info", controllers.DeleteBookMyInfo).Methods("DELETE")
+	r.HandleFunc("/books", concerns.TokenVerifyMiddleWare(controllers.CreateBook)).Methods("POST")
+	r.HandleFunc("/books", concerns.TokenVerifyMiddleWare(controllers.FetchAllBooks)).Methods("GET")
+	r.HandleFunc("/books/meta_info", concerns.TokenVerifyMiddleWare(controllers.FetchAllBooksMetaInfo)).Methods("GET")
+	r.HandleFunc("/books/{id}", concerns.TokenVerifyMiddleWare(controllers.FetchBook)).Methods("GET")
+	r.HandleFunc("/books/{id}", concerns.TokenVerifyMiddleWare(controllers.UpdateBook)).Methods("PUT")
+	r.HandleFunc("/books/{id}", concerns.TokenVerifyMiddleWare(controllers.DeleteBook)).Methods("DELETE")
+	r.HandleFunc("/books/{id}/my_info", concerns.TokenVerifyMiddleWare(controllers.CreateBookMyInfo)).Methods("POST")
+	r.HandleFunc("/books/{id}/my_info", concerns.TokenVerifyMiddleWare(controllers.FetchBookMyInfo)).Methods("GET")
+	r.HandleFunc("/books/{id}/my_info", concerns.TokenVerifyMiddleWare(controllers.UpdateBookMyInfo)).Methods("PUT")
+	r.HandleFunc("/books/{id}/my_info", concerns.TokenVerifyMiddleWare(controllers.DeleteBookMyInfo)).Methods("DELETE")
 
 	log.Println("starting server on 8080 port...")
 	http.ListenAndServe(":8080", r)
