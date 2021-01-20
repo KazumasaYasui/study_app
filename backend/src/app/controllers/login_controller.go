@@ -3,10 +3,13 @@ package controllers
 import (
 	"backend/src/app/controllers/concerns"
 	"backend/src/app/models"
+	"backend/src/config"
+	"context"
 	"encoding/json"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -18,8 +21,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	reqBody, _ := ioutil.ReadAll(r.Body)
 
 	var loginReq concerns.LoginReq
-	if err := json.Unmarshal(reqBody, &loginReq); err != nil {
-		log.Fatal(err)
+	if err1 := json.Unmarshal(reqBody, &loginReq); err1 != nil {
+		log.Fatal(err1)
 	}
 
 	if loginReq.Email == "" {
@@ -46,18 +49,24 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	password := loginReq.Password
 	hashedPassword := user.PasswordDigest
-	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
-	if err != nil {
+	err2 := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
+	if err2 != nil {
 		w.WriteHeader(http.StatusUnauthorized)
 		respBody, _ := json.Marshal(concerns.ErrorResp{Message: "無効なパスワードです"})
 		w.Write(respBody)
 		return
 	}
 
-	token, err := createToken(user)
-	if err != nil {
-		log.Fatal(err)
+	token, err3 := createToken(user)
+	if err3 != nil {
+		log.Fatal(err3)
 	}
+
+	err4 := setSession(strconv.Itoa(int(user.ID)), token)
+	if err4 != nil {
+		log.Fatal(err4)
+	}
+
 	respBody, _ := json.Marshal(concerns.TokenResp{Token: token})
 
 	w.Header().Set("Content-Type", "application/json")
@@ -77,4 +86,14 @@ func createToken(user models.User) (string, error) {
 		log.Fatal(err)
 	}
 	return tokenString, nil
+}
+
+func setSession(userId, token string) error {
+	ctx := context.Background()
+	client := config.SessionConnect()
+	err := client.Set(ctx, userId, token, 0).Err()
+	if err != nil {
+		return err
+	}
+	return nil
 }
