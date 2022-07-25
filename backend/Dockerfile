@@ -1,5 +1,5 @@
 # BASE
-FROM golang:1.15.6-alpine as base
+FROM golang:1.18.4-alpine as base
 
 RUN apk update && apk add --no-cache git gcc musl-dev
 
@@ -9,16 +9,16 @@ WORKDIR /go/src/studyapp
 COPY src/go.mod .
 COPY src/go.sum .
 RUN go mod download
-RUN go get -u github.com/cosmtrek/air && \
-    go get -u github.com/go-delve/delve/cmd/dlv && \
-    go get github.com/rubenv/sql-migrate/...
+RUN go install github.com/cosmtrek/air@latest && \
+    go install github.com/go-delve/delve/cmd/dlv@latest && \
+    go install github.com/rubenv/sql-migrate/...@latest
 
 COPY ./src /go/src/studyapp
 
 CMD ["air", "-c", ".air.toml"]
 
 # BUILDER
-FROM golang:1.15.6-alpine as builder
+FROM golang:1.18.4-alpine as builder
 
 RUN mkdir /go/src/builder
 WORKDIR /go/src/builder
