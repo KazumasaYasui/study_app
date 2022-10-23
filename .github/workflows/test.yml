@@ -1,0 +1,45 @@
+on:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - 'main'
+
+jobs:
+  create_jira_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          TZ: 'Asia/Tokyo'
+        run: |
+          echo "CURRENT_DATETIME=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+          echo "JSON_FILE=sample.json" >> $GITHUB_ENV
+      - run: |
+          echo "${{ secrets.TEST_EMAIL }}:${{ secrets.TEST_TOKEN }}"
+          echo "SPRINT_ID=$(curl --request GET \
+          --url 'https://gist.githubusercontent.com/KazumasaYasui/c7f0cd736d8649604a21961a953ad33e/raw/b040478b83ac5bb44e9c1506bb4bb4c51c7fff88/sample1.json' \
+          --header 'Accept: application/json' | jq '.values[].id')" >> $GITHUB_ENV
+      - run: |
+          echo ${{ env.SPRINT_ID }}
+          curl --request GET \
+          --url "https://gist.githubusercontent.com/KazumasaYasui/032fa1b6f1898934950f9fa936b91fa3/raw/c425119d00ad33bc6dc0eeb65726e9dbab5d46ee/sample2.json" \
+          --header 'Accept: application/json' | jq -r '.issues[]' > ${{ env.JSON_FILE }}
+      - run: |
+          echo "ISSUE_KEY=$(cat ${{ env.JSON_FILE }} | jq -r '. | select(.fields.issuetype.name == "サブタスク" and (.fields.status.name == "staging検証完了")) | .fields.parent.key')" >> $GITHUB_ENV
+      - run: |
+          issue_keys=(`echo ${{ env.ISSUE_KEY }}`)
+          results=()
+          for key in $issue_keys; do
+          results+=(`cat ${{ env.JSON_FILE }} | jq -r ". | select( .key == \"$key\" ) | .fields.customfield_10642.value"`)
+          done
+          echo "RESULTS=$results" >> $GITHUB_ENV
+      - run: |
+          if printf '%s\n' "${{ env.RESULTS }}[@]" | grep -Eq "新機能|改善|バグ修正|内部的"; then
+            echo "RELEASE_NOTE=\"TRUE\"" >> $GITHUB_ENV
+          else
+            echo "RELEASE_NOTE=\"FALSE\"" >> $GITHUB_ENV
+          fi
+      - if: startsWith(env.RELEASE_NOTE, 'TRUE')
+        run: |
+          echo "!!!hogehoge!!!"
+          echo ''"${{ env.CURRENT_DATETIME }}"''
