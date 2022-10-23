@@ -41,6 +41,7 @@ jobs:
           done
           echo "RESULTS=$results" >> $GITHUB_ENV
       - run: |
+          echo ${{ env.RESULTS }}
           if printf '%s\n' "${{ env.RESULTS }}[@]" | grep -Eq "新機能|改善|バグ修正|内部的"; then
             echo "RELEASE_NOTE=\"TRUE\"" >> $GITHUB_ENV
           else
