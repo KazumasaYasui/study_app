@@ -38,7 +38,7 @@ jobs:
           results=()
           echo ${#issue_keys[@]}
           for key in $issue_keys; do
-          echo $(cat ${{ env.JSON_FILE }} | jq -r ". | select( .key == \"$key\" ) | .fields.customfield_10642.id")
+          echo $key
           echo "==="
           done
           for key in $issue_keys; do
