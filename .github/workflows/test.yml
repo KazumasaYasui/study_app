@@ -45,6 +45,7 @@ jobs:
           for key in ${issue_keys[@]}; do
           results+=(`cat ${{ env.JSON_FILE }} | jq -r ". | select( .key == \"$key\" ) | .fields.customfield_10642.id"`)
           done
+          echo ${results[@]}
           echo "RESULTS=$results" >> $GITHUB_ENV
       - run: |
           echo ${{ env.RESULTS }}[@]
