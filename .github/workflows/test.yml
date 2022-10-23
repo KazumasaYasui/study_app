@@ -66,3 +66,4 @@ jobs:
           echo ${{ env.RELEASE_NOTE }}
           echo "!!!hogehoge!!!"
           echo ''"${{ env.CURRENT_DATETIME }}"''
+          echo 'aaa '"\"${{ env.SPRINT_ID }}\""' zzz'
