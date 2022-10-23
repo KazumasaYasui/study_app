@@ -1,9 +1,14 @@
+#on:
+#  pull_request:
+#    types:
+#      - opened
+#    branches:
+#      - 'main'
+
 on:
-  pull_request:
-    types:
-      - opened
+  push:
     branches:
-      - 'main'
+      - 'ga-test'
 
 jobs:
   create_jira_issue:
