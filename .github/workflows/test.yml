@@ -37,17 +37,16 @@ jobs:
           issue_keys=(`echo ${{ env.ISSUE_KEY }}`)
           results=()
           echo ${#issue_keys[@]}
-          for key in $issue_keys; do
+          for key in ${issue_keys[@]}; do
           echo $key
           echo "==="
           done
-          for key in $issue_keys; do
+          for key in ${issue_keys[@]}; do
           results+=(`cat ${{ env.JSON_FILE }} | jq -r ". | select( .key == \"$key\" ) | .fields.customfield_10642.id"`)
           done
           echo "RESULTS=$results" >> $GITHUB_ENV
-        shell: bash
       - run: |
-          echo ${{ env.RESULTS }}
+          echo ${{ env.RESULTS }}[@]
           if printf '%s\n' "${{ env.RESULTS }}[@]" | grep -Eq "10221|10222|10223|10224|10229"; then
             echo "RELEASE_NOTE=TRUE" >> $GITHUB_ENV
           else
