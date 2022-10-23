@@ -30,9 +30,9 @@ jobs:
           --url "https://gist.githubusercontent.com/KazumasaYasui/032fa1b6f1898934950f9fa936b91fa3/raw/c425119d00ad33bc6dc0eeb65726e9dbab5d46ee/sample2.json" \
           --header 'Accept: application/json' | jq -r '.issues[]' > ${{ env.JSON_FILE }}
       - run: |
-          echo 'ISSUE_KEY<<EOF' >> $GITHUB_ENV
-          cat ${{ env.JSON_FILE }} | jq -r '. | select(.fields.issuetype.name == "サブタスク" and (.fields.status.name == "staging検証完了")) | .fields.parent.key' >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
+          TMP_KEY=$(cat ${{ env.JSON_FILE }} | jq -r '. | select(.fields.issuetype.name == "サブタスク" and (.fields.status.name == "staging検証完了")) | .fields.parent.key' | tr '\n' ' ')
+          echo $TMP_KEY
+          echo "ISSUE_KEY=$TMP_KEY" >> $GITHUB_ENV
       - run: |
           issue_keys=(`echo ${{ env.ISSUE_KEY }}`)
           results=()
