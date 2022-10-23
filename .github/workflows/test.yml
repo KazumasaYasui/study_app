@@ -42,7 +42,7 @@ jobs:
           echo "RESULTS=$results" >> $GITHUB_ENV
       - run: |
           echo ${{ env.RESULTS }}
-          if printf '%s\n' "${{ env.RESULTS }}[@]" | grep -Eq "10221|10222|10223|10224|10226"; then
+          if printf '%s\n' "${{ env.RESULTS }}[@]" | grep -Eq "10221|10222|10223|10224|10229"; then
             echo "RELEASE_NOTE=TRUE" >> $GITHUB_ENV
           else
             echo "RELEASE_NOTE=FALSE" >> $GITHUB_ENV
