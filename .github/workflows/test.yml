@@ -45,6 +45,7 @@ jobs:
           results+=(`cat ${{ env.JSON_FILE }} | jq -r ". | select( .key == \"$key\" ) | .fields.customfield_10642.id"`)
           done
           echo "RESULTS=$results" >> $GITHUB_ENV
+        shell: bash
       - run: |
           echo ${{ env.RESULTS }}
           if printf '%s\n' "${{ env.RESULTS }}[@]" | grep -Eq "10221|10222|10223|10224|10229"; then
