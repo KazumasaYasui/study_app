@@ -61,7 +61,7 @@ jobs:
             echo "RELEASE_NOTE=FALSE" >> $GITHUB_ENV
           fi
       - name: create jira issue for release note
-      - if: startsWith(env.RELEASE_NOTE, 'TRUE')
+        if: startsWith(env.RELEASE_NOTE, 'TRUE')
         run: |
           echo ${{ env.RELEASE_NOTE }}
           echo "!!!hogehoge!!!"
