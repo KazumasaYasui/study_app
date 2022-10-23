@@ -54,8 +54,8 @@ jobs:
           echo "RELEASE_CATEGORY_IDS=${release_category_ids[@]}" >> $GITHUB_ENV
       - name: set release note flag
         run: |
-          echo ${{ env.RELEASE_CATEGORY_IDS }}[@]
-          if printf '%s\n' "${{ env.RELEASE_CATEGORY_IDS }}[@]" | grep -Eq "10221|10222|10223|10224|10229"; then
+          echo ${{ env.RELEASE_CATEGORY_IDS }}
+          if printf '%s\n' "${{ env.RELEASE_CATEGORY_IDS }}" | grep -Eq "10221|10222|10223|10224|10229"; then
             echo "RELEASE_NOTE=TRUE" >> $GITHUB_ENV
           else
             echo "RELEASE_NOTE=FALSE" >> $GITHUB_ENV
