@@ -43,11 +43,12 @@ jobs:
       - run: |
           echo ${{ env.RESULTS }}
           if printf '%s\n' "${{ env.RESULTS }}[@]" | grep -Eq "10221|10222|10223|10224|10226"; then
-            echo "RELEASE_NOTE=\"TRUE\"" >> $GITHUB_ENV
+            echo "RELEASE_NOTE=TRUE" >> $GITHUB_ENV
           else
-            echo "RELEASE_NOTE=\"FALSE\"" >> $GITHUB_ENV
+            echo "RELEASE_NOTE=FALSE" >> $GITHUB_ENV
           fi
-      - run: |
+      - if: startsWith(env.RELEASE_NOTE, 'TRUE')
+        run: |
           echo ${{ env.RELEASE_NOTE }}
           echo "!!!hogehoge!!!"
           echo ''"${{ env.CURRENT_DATETIME }}"''
