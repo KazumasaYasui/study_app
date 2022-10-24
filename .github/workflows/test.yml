@@ -67,4 +67,4 @@ jobs:
           echo "!!!hogehoge!!!"
           echo ''"${{ env.CURRENT_DATETIME }}"''
           echo 'aaa '"\"${{ env.SPRINT_ID }}\""' zzz'
-          echo 'aaa '"${${{ github.sha }}:0:7}"' zzz'
+          echo 'aaa '"${{ github.sha:0:7 }}"' zzz'
