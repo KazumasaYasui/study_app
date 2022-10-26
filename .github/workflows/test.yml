@@ -48,7 +48,7 @@ jobs:
           --header 'Accept: application/json' | jq -r '.issues[]' > ${{ env.JSON_FILE }}
       - name: set target jira issue keys
         run: |
-          TMP_KEY=$(cat ${{ env.JSON_FILE }} | jq -r '. | select(.fields.issuetype.name == "サブタスク" and (.fields.status.name == "staging検証完了")) | .fields.parent.key' | tr '\n' ' ')
+          TMP_KEY=$(cat ${{ env.JSON_FILE }} | jq -r '. | select(.fields.issuetype.name == "サブタスク" and (.fields.status.name == "staging")) | .fields.parent.key' | tr '\n' ' ')
           echo "ISSUE_KEYS=$TMP_KEY" >> $GITHUB_ENV
       - name: set release category ids
         run: |
