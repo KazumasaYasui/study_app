@@ -5,19 +5,12 @@
 #    branches:
 #      - 'main'
 
-#on:
-#  pull_request:
-#    types:
-#      - closed
-#    branches:
-#      - 'master'
-#jobs:
-
 on:
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
-      - 'ga-test'
-
+      - 'main'
 jobs:
   create_jira_issue:
 #    if: github.event.pull_request.merged == true
