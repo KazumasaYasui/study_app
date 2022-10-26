@@ -5,6 +5,14 @@
 #    branches:
 #      - 'main'
 
+#on:
+#  pull_request:
+#    types:
+#      - closed
+#    branches:
+#      - 'master'
+#jobs:
+
 on:
   push:
     branches:
@@ -12,61 +20,121 @@ on:
 
 jobs:
   create_jira_issue:
+#    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: set environment variables
         env:
           TZ: 'Asia/Tokyo'
         run: |
-          echo "CURRENT_DATETIME=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+          echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
           echo "JSON_FILE=sample.json" >> $GITHUB_ENV
-          TMP_SHA=${{ github.sha }}
-          echo "GIT_SHA=${TMP_SHA:0:7}" >> $GITHUB_ENV
+          echo "BOARD_ID=54" >> $GITHUB_ENV
+          echo "PROJECT_ID=10936" >> $GITHUB_ENV
+          echo "PRIORITY_ID=3" >> $GITHUB_ENV
+          echo "REPORTER_ID=557058:f58131cb-b67d-43c7-b30d-6b58d40bd077" >> $GITHUB_ENV
+          echo "ISSUE_TYPE_ID_TASK=10201" >> $GITHUB_ENV
+          echo "ISSUE_TYPE_ID_SUBTASK=10300" >> $GITHUB_ENV
       - name: set current sprint id
         run: |
-          echo "${{ secrets.TEST_EMAIL }}:${{ secrets.TEST_TOKEN }}"
           echo "SPRINT_ID=$(curl --request GET \
-          --url 'https://gist.githubusercontent.com/KazumasaYasui/c7f0cd736d8649604a21961a953ad33e/raw/b040478b83ac5bb44e9c1506bb4bb4c51c7fff88/sample1.json' \
+          --url "https://gist.githubusercontent.com/KazumasaYasui/c7f0cd736d8649604a21961a953ad33e/raw/0d15bf6ba8e6f5c6c15a32f7c1bd863db32f936a/sample1.json?email=${{ secrets.TEST_EMAIL }}&token=${{ secrets.TEST_TOKEN }}&board_id=${{ env.BOARD_ID }}" \
           --header 'Accept: application/json' | jq '.values[].id')" >> $GITHUB_ENV
       - name: set base json file
         run: |
           echo ${{ env.SPRINT_ID }}
           curl --request GET \
-          --url "https://gist.githubusercontent.com/KazumasaYasui/032fa1b6f1898934950f9fa936b91fa3/raw/c425119d00ad33bc6dc0eeb65726e9dbab5d46ee/sample2.json" \
+          --url "https://gist.githubusercontent.com/KazumasaYasui/f1c9e64a4127f44755e5aaffd8612347/raw/c72e76e0e31500e3b8463b0d720ce712f083a404/sample2.json?email=${{ secrets.TEST_EMAIL }}&token=${{ secrets.TEST_TOKEN }}&board_id=${{ env.BOARD_ID }}&sprint_id=${{ env.SPRINT_ID }}" \
           --header 'Accept: application/json' | jq -r '.issues[]' > ${{ env.JSON_FILE }}
       - name: set target jira issue keys
         run: |
           TMP_KEY=$(cat ${{ env.JSON_FILE }} | jq -r '. | select(.fields.issuetype.name == "サブタスク" and (.fields.status.name == "staging検証完了")) | .fields.parent.key' | tr '\n' ' ')
-          echo $TMP_KEY
-          echo "ISSUE_KEY=$TMP_KEY" >> $GITHUB_ENV
+          echo "ISSUE_KEYS=$TMP_KEY" >> $GITHUB_ENV
       - name: set release category ids
         run: |
-          issue_keys=(`echo ${{ env.ISSUE_KEY }}`)
+          issue_keys=(`echo ${{ env.ISSUE_KEYS }}`)
           release_category_ids=()
-          echo ${#issue_keys[@]}
           for key in ${issue_keys[@]}; do
-          echo $key
-          echo $(cat ${{ env.JSON_FILE }} | jq -r ". | select( .key == \"$key\" ) | .fields.customfield_10642.id")
-          echo "==="
+            release_category_ids+=(`cat ${{ env.JSON_FILE }} | jq -r ". | select(.key == \"$key\") | .fields.customfield_10642.id"`)
           done
-          for key in ${issue_keys[@]}; do
-          release_category_ids+=(`cat ${{ env.JSON_FILE }} | jq -r ". | select( .key == \"$key\" ) | .fields.customfield_10642.id"`)
-          done
-          echo ${release_category_ids[@]}
           echo "RELEASE_CATEGORY_IDS=${release_category_ids[@]}" >> $GITHUB_ENV
       - name: set release note flag
         run: |
           echo ${{ env.RELEASE_CATEGORY_IDS }}
-          if printf '%s\n' "${{ env.RELEASE_CATEGORY_IDS }}" | grep -Eq "10221|10222|10223|10224|10229"; then
+          if printf '%s\n' "${{ env.RELEASE_CATEGORY_IDS }}" | grep -Eq "10221|10222|10223|10224"; then
             echo "RELEASE_NOTE=TRUE" >> $GITHUB_ENV
           else
             echo "RELEASE_NOTE=FALSE" >> $GITHUB_ENV
           fi
-      - name: create jira issue for release note
+      - name: create jira parent issue for release note
         if: startsWith(env.RELEASE_NOTE, 'TRUE')
         run: |
-          echo ${{ env.RELEASE_NOTE }}
-          echo "!!!hogehoge!!!"
-          echo ''"${{ env.CURRENT_DATETIME }}"''
-          echo 'aaa '"\"${{ env.SPRINT_ID }}\""' zzz'
-          echo 'aaa '"${{ env.GIT_SHA }}"' zzz'
+          echo '{
+            "update": {},
+            "fields": {
+              "priority": {
+                "id": "'"${{ env.PRIORITY_ID }}"'"
+              },
+              "reporter": {
+                "accountId": "'"${{ env.REPORTER_ID }}"'",
+              },
+              "issuetype": {
+                "id": "'"${{ env.ISSUE_TYPE_ID_TASK }}"'",
+              },
+              "project": {
+                "id": "'"${{ env.PROJECT_ID }}"'",
+              },
+              "summary": "'"${{ env.CURRENT_DATE }}"' ユーザー向けリリースノート作成",
+              "customfield_10115": '"${{ env.SPRINT_ID }}"',
+              "customfield_10634": {
+                "version": 1,
+                "type": "doc",
+                "content": [
+                  {
+                    "type": "bulletList",
+                    "content": [
+                      {
+                        "type": "listItem",
+                        "content": [
+                          {
+                            "type": "paragraph",
+                            "content": [
+                              {
+                                "type": "text",
+                                "text": "'"${{ env.CURRENT_DATE }}"'分のユーザー向けリリースノート作成管理用チケットです。"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }'
+          echo "PARENT_ID=101" >> $GITHUB_ENV
+      - name: create jira child issue for release note
+        if: startsWith(env.RELEASE_NOTE, 'TRUE')
+        run: |
+          echo '{
+            "update": {},
+            "fields": {
+              "priority": {
+                "id": "'"${{ env.PRIORITY_ID }}"'"
+              },
+              "reporter": {
+                "accountId": "'"${{ env.REPORTER_ID }}"'",
+              },
+              "issuetype": {
+                "id": "'"${{ env.ISSUE_TYPE_ID_SUBTASK }}"'",
+              },
+              "project": {
+                "id": "'"${{ env.PROJECT_ID }}"'",
+              },
+              "parent": {
+                "key": "'"${{ env.PARENT_ID }}"'"
+              },
+              "summary": "書く"
+            }
+          }'
